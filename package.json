@@ -1,0 +1,25 @@
+{
+  "name": "react-redux-local-state",
+  "version": "1.0.0",
+  "description": "A simple react higher order component which automagically uses redux to handle local react state.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DillonF/react-redux-local-state.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DillonF/react-redux-local-state/issues"
+  },
+  "homepage": "https://github.com/DillonF/react-redux-local-state#readme",
+  "dependencies": {
+    "lodash.isequal": "^4.5.0",
+    "react": "^16.0.0",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2"
+  }
+}
