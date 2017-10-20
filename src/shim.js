@@ -7,13 +7,14 @@ import { setComponentState } from './actions'
 
 const defaultOptions = {
   reducerName: 'localState',
-  propName: 'localState',
+  propName: 'rrls_localState',
+  actionName: 'setComponentState',
   mapStateToProps: (state) => { return {...state} },
   mapDispatchToProps: {},
   componentName: ''
 }
 
-function Shim(Component, options) {
+function Enhancer(Component, options) {
   // merge options
   let mergedOptions = {}
   if (typeof options === 'string') { // only componentName is given
@@ -26,7 +27,7 @@ function Shim(Component, options) {
 
   let { reducerName, propName, mapStateToProps, mapDispatchToProps, componentName } = mergedOptions
 
-  class Enhancer extends Component {
+  class Shimmed extends Component {
     constructor(props) {
       super(props)
 
@@ -82,7 +83,7 @@ function Shim(Component, options) {
     } else if (typeof mapDispatchToProps === 'function') {
       return {...mapDispatchToProps(dispatch, ownProps), ...bindActionCreators({setComponentState}, dispatch)}
     }
-  })(Enhancer)
+  })(Shimmed)
 }
 
-export default Shim
+export default Enhancer

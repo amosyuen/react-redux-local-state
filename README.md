@@ -5,7 +5,7 @@ having to write redux boilerplate!
 
 ## Usage
 
-### Step 1 - Connect reducer to redux
+#### Step 1 - Connect reducer to redux
 
 ```javascript
 import { createStore, combineReducers } from 'redux'
@@ -19,22 +19,41 @@ const rootReducer = combineReducers({
 const store = createStore(rootReducer)
 ```
 
-Note: by default the reducer's state slice's name is localState, if you need to use a different name for the state slice,
-you can do so, but the name will have to be passed to each call of the component decorator.
+Note: by default the reducer's state slice is named is localState, if you need to use a different name
+you can do so, but the name will have to be passed in the options of each enhancer call.
 
-### Step 2 - Decorate your component
+#### Step 2 - Decorate your component
 
 ```javascript
 import { Shim } from 'react-redux-local-state'
 
 const ShimmedComponent = Shim(YourComponent, 'componentName')
 
+let options = {
+  componentName: 'otherComponentName',
+  propName: 'someOtherPropName'
+}
+
+const ShimmedComponentWithOptions = Shim(YourComponent, options)
+
 export ShimmedComponent
+
+export ShimmedComponentWithOptions
 ```
 
-That's it! All of the decorated component's local state will now be handled by redux!
+That's it! All of the decorated component's local state will now be handled by redux.
 Any calls to this.setState will fire the 'RRLS_SET_COMPONENT_STATE' action.
 
+#### Customizing connect's arguments
+
+All decorated components connect to redux's store to listen to updates to state.
+If you want to pass custom mapStateToProps or mapDispatchToProps to connect,
+pass them as fields in the shim's option argument. The shim will automatically merge the results
+of your supplied arguments with its own and pass them to the component.
+
+#### Props
+
+By default the component will get the setComponentState function and the rrls_localState object as props. If you need to change the name of these props to avoid collisions, you can set the actionName or propName fields in the option object.
 
 
 ## Caveats
@@ -43,10 +62,10 @@ This decorator functions by completely overwriting the decorated component's set
 1. If the component is wrapped in another HOC which overwrites the setState method, or if the component itself overwrites the method, this shim won't work properly.
 2. Any performance benefits from react's internal state batching is lost.
 
-All components decorated by this library are by necessity connected to redux using redux-form's connect function in order to listen to their own state changes.
+
 
 
 ## TODO
 
-error handling
-tests
+* error handling
+* tests
