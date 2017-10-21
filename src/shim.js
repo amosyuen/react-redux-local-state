@@ -17,12 +17,10 @@ function Enhancer(componentName, options) {
   return function Decorator(Component) {
     // merge options
     let mergedOptions = {}
-    if (typeof options === 'string') { // only componentName is given
-      mergedOptions = {...defaultOptions, componentName: options}
-    } else if (typeof options === 'object') {
+    if (options && typeof options === 'object') {
       mergedOptions = {...defaultOptions, ...options}
     } else {
-      throw 'Shim must be passed either a componentName string OR an options object with a componentName field'
+      throw 'Options argument must be a simple object'
     }
 
     let { reducerName, propName, mapStateToProps, mapDispatchToProps } = mergedOptions
