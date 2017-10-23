@@ -1,6 +1,6 @@
 {
   "name": "react-redux-local-state",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A simple react higher order component which automagically uses redux to handle local react state.",
   "main": "lib/index.js",
   "scripts": {
