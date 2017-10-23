@@ -7,7 +7,7 @@ import { setComponentState } from './actions'
 
 import defaultOptions from './defaults'
 
-function Enhancer(componentName, options) {
+function Enhancer(componentName, options = {}) {
   // merge options
   var mergedOptions = {}
   if (options && typeof options === 'object') {
