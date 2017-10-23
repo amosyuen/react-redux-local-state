@@ -2,7 +2,7 @@
   "name": "react-redux-local-state",
   "version": "1.0.0",
   "description": "A simple react higher order component which automagically uses redux to handle local react state.",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,6 +18,8 @@
   "homepage": "https://github.com/DillonF/react-redux-local-state#readme",
   "dependencies": {
     "lodash.isequal": "^4.5.0",
+  },
+  "peerDependencies": {
     "react": "^16.0.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2"

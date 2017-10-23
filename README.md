@@ -25,8 +25,13 @@ Note: by default the reducer's state slice is named is localState, if you need t
 import { Enhancer } from 'react-redux-local-state'
 import YourComponent from './YourComponent'
 
+// with default options
 const EnhancedComponent = Enhancer('componentName')(YourComponent)
 
+export EnhancedComponent
+
+
+// with custom options
 let options = {
   componentName: 'otherComponentName',
   propName: 'someOtherPropName'
@@ -34,7 +39,7 @@ let options = {
 
 const EnhancedComponentWithOptions = Enhancer('componentName', options)(YourComponent)
 
-export EnhancedComponent
+
 
 export EnhancedComponentWithOptions
 ```
@@ -53,6 +58,8 @@ By default the component will get the setComponentState function and the rrls_lo
 
 
 ## Caveats
+If you have multiple components with the same componentName, they will all share the same state.
+
 This HOC functions by completely overwriting the enhanced component's setState method. super.setState is never called. This has a few implications:
 1. If the component is wrapped in another HOC which overwrites the setState method, or if the component itself overwrites the method, this HOC won't work properly.
 2. Normally, this.setState is batched by react. Components enhanced with this HOC instead receive their own local state as a prop. As a result, the internal batching isn't used. This shouldn't affect most component, but could potentially cause issues if the enhanced component somehow relies on the specifics of this internal batching.
