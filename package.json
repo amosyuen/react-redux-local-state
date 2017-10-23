@@ -10,8 +10,8 @@
     "type": "git",
     "url": "git+https://github.com/DillonF/react-redux-local-state.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Dillon Foley",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/DillonF/react-redux-local-state/issues"
   },

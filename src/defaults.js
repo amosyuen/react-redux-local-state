@@ -10,7 +10,7 @@ export default defaultOptions = {
 
   // Function - mapStateToProps function to pass to the internal connect call
   // See react-redux docs for more information
-  mapStateToProps: (state) => { return {...state} },
+  mapStateToProps: (state, ownProps) => { return {} },
 
   // Object or Function - mapDispatchToProps to pass to internal connect call
   // See react-redux docs for more information

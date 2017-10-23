@@ -9,22 +9,42 @@ import defaultOptions from './defaults'
 
 function Enhancer(componentName, options) {
   // merge options
-  let mergedOptions = {}
+  const mergedOptions = {}
   if (options && typeof options === 'object') {
     mergedOptions = {...defaultOptions, ...options}
   } else {
     throw 'Options argument must be a simple object'
   }
 
-  let { reducerName, propName, mapStateToProps, mapDispatchToProps } = mergedOptions
+  const { reducerName, propName, actionName } = mergedOptions
 
+  // merge mapStateToProps result with local state prop and pass to component
+  const mapStateToProps = (state, ownProps) => {
+    let propsFromState = mergedOptions.mapStateToProps(state, ownProps)
+    propsFromState[propName] = {...state[reducerName][componentName]}
+    return propsFromState
+  }
+
+  // generate mapDispatchToProps
+  const mapDispatchToProps
+  if (typeof mergedOptions.mapDispatchToProps === 'object') {
+    mapDispatchToProps = {...mergedOptions.mapDispatchToProps,}
+    mapDispatchToProps[actionName] = setComponentState
+  } else if (typeof mergedOptions === 'function') {
+    mapDispatchToProps = (dispatch, ownProps) => {
+      let actionCreators = {...mergedOptions.mapDispatchToProps(dispatch, ownProps)}
+      actionCreators[actionName] = bindActionCreators({setComponentState}, dispatch)
+      return actionCreators
+    }
+  } else {
+    throw 'mapDispatchToProps must be an object of action creators or a function!'
+  }
 
   return function Decorator(Component) {
 
     class Enhanced extends Component {
       constructor(props) {
         super(props)
-
 
         if (this.state) {
           this.props.setComponentState(componentName, this.state)
@@ -57,7 +77,7 @@ function Enhancer(componentName, options) {
         if (!isEqual(this.props[propName], nextProps[propName])) {
           this.state = nextProps[propName]
           if (this._rrls_cb) {
-            _rrls_cb() // call callback
+            _rrls_cb() // execute callback
             _rrls_cb = null // unregister callback
           }
         }
@@ -74,19 +94,7 @@ function Enhancer(componentName, options) {
     }
 
 
-    return connect((state) => {
-      // merge mapStateToProps result with local props and pass to component
-      let propsFromState = mapStateToProps(state)
-      propsFromState[propName] = {...state[reducerName][componentName]}
-      return propsFromState
-    }, (dispatch, ownProps) => {
-      // merge mapDispatchToProps result with shim action creator
-      if (typeof mapDispatchToProps === 'object') {
-        return bindActionCreators({...mapDispatchToProps, setComponentState}, dispatch)
-      } else if (typeof mapDispatchToProps === 'function') {
-        return {...mapDispatchToProps(dispatch, ownProps), ...bindActionCreators({setComponentState}, dispatch)}
-      }
-    })(Enhanced)
+    return connect(mapStateToProps, mapDispatchToProps)(Enhanced)
   }
 }
 
