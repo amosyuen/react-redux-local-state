@@ -9,24 +9,24 @@ import defaultOptions from './defaults'
 
 function Enhancer(componentName, options) {
   // merge options
-  const mergedOptions = {}
+  var mergedOptions = {}
   if (options && typeof options === 'object') {
     mergedOptions = {...defaultOptions, ...options}
   } else {
     throw 'Options argument must be a simple object'
   }
 
-  const { reducerName, propName, actionName } = mergedOptions
+  var { reducerName, propName, actionName } = mergedOptions
 
   // merge mapStateToProps result with local state prop and pass to component
-  const mapStateToProps = (state, ownProps) => {
+  var mapStateToProps = (state, ownProps) => {
     let propsFromState = mergedOptions.mapStateToProps(state, ownProps)
     propsFromState[propName] = {...state[reducerName][componentName]}
     return propsFromState
   }
 
   // generate mapDispatchToProps
-  const mapDispatchToProps
+  var mapDispatchToProps = () => {}
   if (typeof mergedOptions.mapDispatchToProps === 'object') {
     mapDispatchToProps = {...mergedOptions.mapDispatchToProps,}
     mapDispatchToProps[actionName] = setComponentState
