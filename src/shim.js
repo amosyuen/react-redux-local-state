@@ -5,27 +5,23 @@ import isEqual from 'lodash/isequal'
 
 import { setComponentState } from './actions'
 
-const defaultOptions = {
-  reducerName: 'localState',
-  propName: 'rrls_localState',
-  actionName: 'setComponentState',
-  mapStateToProps: (state) => { return {...state} },
-  mapDispatchToProps: {}
-}
+import defaultOptions from './defaults'
 
 function Enhancer(componentName, options) {
+  // merge options
+  let mergedOptions = {}
+  if (options && typeof options === 'object') {
+    mergedOptions = {...defaultOptions, ...options}
+  } else {
+    throw 'Options argument must be a simple object'
+  }
+
+  let { reducerName, propName, mapStateToProps, mapDispatchToProps } = mergedOptions
+
+
   return function Decorator(Component) {
-    // merge options
-    let mergedOptions = {}
-    if (options && typeof options === 'object') {
-      mergedOptions = {...defaultOptions, ...options}
-    } else {
-      throw 'Options argument must be a simple object'
-    }
 
-    let { reducerName, propName, mapStateToProps, mapDispatchToProps } = mergedOptions
-
-    class Shimmed extends Component {
+    class Enhanced extends Component {
       constructor(props) {
         super(props)
 
@@ -81,7 +77,7 @@ function Enhancer(componentName, options) {
       } else if (typeof mapDispatchToProps === 'function') {
         return {...mapDispatchToProps(dispatch, ownProps), ...bindActionCreators({setComponentState}, dispatch)}
       }
-    })(Shimmed)
+    })(Enhanced)
   }
 }
 
