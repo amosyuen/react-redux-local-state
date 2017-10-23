@@ -1,4 +1,4 @@
-export default defaultOptions = {
+const defaultOptions = {
   // String - The name of the state slice passed to combineReducers
   reducerName: 'localState',
 
@@ -16,3 +16,5 @@ export default defaultOptions = {
   // See react-redux docs for more information
   mapDispatchToProps: {}
 }
+
+export default defaultOptions
