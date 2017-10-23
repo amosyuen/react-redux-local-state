@@ -17,11 +17,11 @@
   },
   "homepage": "https://github.com/DillonF/react-redux-local-state#readme",
   "dependencies": {
-    "lodash.isequal": "^4.5.0",
+    "lodash.isequal": "^4.5.0"
   },
   "peerDependencies": {
-    "react": "^16.0.0",
-    "react-redux": "^5.0.6",
-    "redux": "^3.7.2"
+    "react": "16.x",
+    "react-redux": "5.x",
+    "redux": "3.x"
   }
 }
