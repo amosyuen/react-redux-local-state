@@ -1,8 +1,8 @@
 {
   "name": "react-redux-local-state",
-  "version": "1.0.4",
+  "version": "1.0.3",
   "description": "A simple react higher order component which automagically uses redux to handle local react state.",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "babel src --out-dir lib"
