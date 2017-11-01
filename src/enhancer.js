@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import isEqual from 'lodash/isequal'
+import isEqual from 'lodash/isEqual'
 
 import { setComponentState } from './actions'
 
